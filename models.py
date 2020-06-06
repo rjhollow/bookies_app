@@ -14,8 +14,44 @@ from pydal.validators import *
 #
 # db.commit()
 #
+def get_user():
+    return auth.current_user.get('id') if auth.current_user else None
+
+def get_username():
+    return auth.current_user.get('username') if auth.current_user else None
+
+def get_user_fullname():
+    first_name = auth.current_user.get('first_name')
+    last_name = auth.current_user.get('last_name')
+    return first_name + " " + last_name if auth.current_user else None
 
 def get_user_email():
     return auth.current_user.get('email') if auth.current_user else None
 
+def get_time():
+    return datetime.datetime.utcnow()
+
+db.define_table("user",
+                Field('email', default=get_user_email),
+                Field('name', 'text', default=get_user_fullname),
+                Field('profile_pic', 'text'),
+                Field('date_joined', 'datetime', default=get_time),
+                Field('num_followers', 'integer', default=0),
+                Field('num_following', 'integer', default=0),
+                Field('num_of_posts', 'integer', default=0))
+
+db.define_table("follow",
+                Field('follower_id', 'reference user'),
+                Field('followee_id', 'reference user'))
+
+db.define_table("post",
+                Field('user', 'reference auth_user', default=get_user),
+                Field('name', 'text', default=get_user_fullname),
+                Field('content', 'text'),
+                Field('num_likes', 'integer', default=0),
+                Field('post_date', 'datetime', default=get_time),
+                Field('reply', 'reference post'))
+
+db.commit()
+db.commit()
 db.commit()
