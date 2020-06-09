@@ -55,7 +55,7 @@
                         <div class="media-content">
                             <div class="content">
                                 <p>
-                                    <strong>{{post.name}}{{post._idx}}</strong> <small>{{post.post_date}}</small>
+                                    <strong>{{post.name}}</strong> <small>{{post.post_date}}</small>
                                     <br>
                                     {{post.content}}
                                     <br>
@@ -102,11 +102,12 @@
                             </p>
                             <div class="field">
                                 <p class="control">
-                                    <input v-model="new_reply" class="input" type="email"
+                                    <input v-model="new_reply" class="input is-rounded"
                                            placeholder="Add a comment ...">
                                 </p>
                             </div>
-                            <a @click="create_new_reply(post.id)" class="button is-warning"><strong>Comment</strong></a>
+                            <a @click="create_new_reply(post._idx)"
+                               class="button is-warning"><strong>Comment</strong></a>
                         </div>
                     </div>
                 </div>

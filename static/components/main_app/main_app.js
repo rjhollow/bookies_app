@@ -1,6 +1,6 @@
 (function () {
   var main_app = {
-    props: ["get_posts_url", "create_post_url", "get_about_url", "delete_all", "get_user_url"],
+    props: ["get_posts_url", "create_post_url", "get_about_url", "delete_all", "get_user_url", "create_reply_url"],
     // Notice how we never actually use the get_about_url here!
     // That's because we pass it down to the child AboutPage component.
     data: {},
@@ -17,6 +17,7 @@
       fullname: "",
       get_url: this.get_posts_url,
       create_url: this.create_post_url,
+      create_reply_url: this.create_reply_url,
       about_url: this.get_about_url,
       delete_url: this.delete_all,
       user_url: this.get_user_url,
@@ -68,36 +69,37 @@
             user: self.user_id
             
         });
-        self.posts = main_app.index(all_posts);
+        self.posts = main_app.enumerate(all_posts);
         self.new_post = "";
       });
   };
   
-  main_app.methods.create_new_reply = function (id) {
+  main_app.methods.create_new_reply = function (post_idx) {
     if (this.new_reply.length === 0) {
       return;
     }
     let self = this;
+    let post = self.posts[post_idx];
+    console.log(post);
     axios
-      .post(self.create_url, {
+      .post(self.create_reply_url, {
+          id: post.id,
           name: self.fullname,
-          content: self.new_post,
+          content: self.new_reply,
       })
       .then((res) => {
-        console.log(res.data.post);
-        self.posts.unshift({
+        console.log(post.replies);
+        post.replies.push({
             id: res.data.id,
             name: self.fullname,
-            content: self.new_post,
+            content: self.new_reply,
             num_likes: 0,
-            post_date: res.data.date,
-            replies: [],
-            reply: null,
+            post_date: "",
+            reply: post.id,
             user: self.user_id
-            
         });
-        console.log(self.posts);
-        self.new_post = "";
+        console.log(post);
+        self.new_reply = "";
       });
   };
 

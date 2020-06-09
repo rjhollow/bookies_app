@@ -10,6 +10,7 @@ class MainAppComponent(Fixture):
     get_posts_url={get_posts_url}
     get_user_url={get_user_url}
     create_post_url={create_post_url}
+    create_reply_url={create_reply_url}
     get_about_url={get_about_url}
     delete_all={delete_all}
     ></mainapp>"""
@@ -31,12 +32,14 @@ class MainAppComponent(Fixture):
         self.create_route(self.delete_all_posts_url,
                           self.delete_all_posts, "GET")
         self.create_route(self.create_post_url, self.create_post, "POST")
+        self.create_route(self.create_reply_url, self.create_reply, "POST")
 
     def __call__(self, img_id=None):  # turn our class into HTML
         return XML(MainAppComponent.MAINAPP.format(
             get_posts_url=URL(self.get_posts_url, signer=self.signer),
             get_user_url=URL(self.get_user_url, signer=self.signer),
             create_post_url=URL(self.create_post_url, signer=self.signer),
+            create_reply_url=URL(self.create_reply_url, signer=self.signer),
             get_about_url=URL(self.get_about_url, signer=self.signer),
             delete_all=URL(self.delete_all_posts_url, signer=self.signer)
         ))
@@ -45,6 +48,7 @@ class MainAppComponent(Fixture):
         self.get_posts_url = self.base_url + "/get_posts"
         self.get_user_url = self.base_url + "/get_current_user"
         self.create_post_url = self.base_url + "/create_post"
+        self.create_reply_url = self.base_url + "/create_reply"
         self.get_about_url = self.base_url + "/about"
         self.delete_all_posts_url = self.base_url + "/clear"
 
@@ -75,6 +79,13 @@ class MainAppComponent(Fixture):
         post = self.db(self.db.posts.id == id).select().first()
         post['replies'] = []
         return dict(id=id, date=post.post_date)
+
+    def create_reply(self):
+        post_id = request.json.get('id')
+        name = request.json.get('name')
+        content = request.json.get('content')
+        id = self.db.posts.insert(name=name, content=content, reply=post_id)
+        return dict(id=id)
 
     def delete_all_posts(self):
         self.db(self.db.posts).delete()
