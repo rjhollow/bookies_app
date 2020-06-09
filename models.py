@@ -31,7 +31,7 @@ def get_user_email():
 def get_time():
     return datetime.datetime.utcnow()
 
-db.define_table("user",
+db.define_table("users",
                 Field('email', default=get_user_email),
                 Field('name', 'text', default=get_user_fullname),
                 Field('profile_pic', 'text'),
@@ -40,17 +40,17 @@ db.define_table("user",
                 Field('num_following', 'integer', default=0),
                 Field('num_of_posts', 'integer', default=0))
 
-db.define_table("follow",
-                Field('follower_id', 'reference user'),
-                Field('followee_id', 'reference user'))
+db.define_table("follows",
+                Field('follower_id', 'reference users'),
+                Field('followee_id', 'reference users'))
 
-db.define_table("post",
+db.define_table("posts",
                 Field('user', 'reference auth_user', default=get_user),
                 Field('name', 'text', default=get_user_fullname),
                 Field('content', 'text'),
                 Field('num_likes', 'integer', default=0),
                 Field('post_date', 'datetime', default=get_time),
-                Field('reply', 'reference post'))
+                Field('reply', 'reference posts'))
 
 db.commit()
 db.commit()

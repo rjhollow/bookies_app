@@ -1,0 +1,128 @@
+<!-- TODO: complete -->
+<div class="section">
+    <div class="columns">
+        <div class="column is-2 has-background-white" id="navigation">
+            <!-- Notice route(1), this means switch to page 1 -->
+            <div @click="route(1)" class="navigation-item">
+                Home
+            </div>
+            <!-- Switch to page 2 -->
+            <div @click="route(2)" class="navigation-item">
+                About
+            </div>
+            <!-- Switch to page 3 -->
+            <div @click="route(3)" class="navigation-item">
+                Sample Page
+            </div>
+            <!-- You could easily add N more pages! -->
+        </div>
+        <div class="column has-background-light">
+            <!-- If page is 1 -->
+            <div v-if="page == 1">
+                <div class="box">
+                    <article class="media has-background-white">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="field">
+                                <p>
+                                    <strong>{{fullname}}</strong>
+                                </p>
+                                <p class="control">
+                                    <textarea v-model="new_post" class="textarea"
+                                              placeholder="Start a book discussion..."></textarea>
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a @click="create_new_post" class="button is-info"><strong>Post</strong></a>
+                                </div>
+                            </nav>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="box post" v-for="(post, index) in posts">
+                    <article class="media has-background-white">
+                        <figure class="media-left">
+                            <p class="image is-64x64">
+                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                        </figure>
+                        <div class="media-content">
+                            <div class="content">
+                                <p>
+                                    <strong>{{post.name}}{{post._idx}}</strong> <small>{{post.post_date}}</small>
+                                    <br>
+                                    {{post.content}}
+                                    <br>
+                                </p>
+                            </div>
+                            <nav class="level is-mobile">
+                                <div class="level-left">
+                                    <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like</a>
+                                    <a class="level-item">Comment</a>
+                                </div>
+                            </nav>
+
+                            <div v-for="reply in post.replies">
+                                <article class="media">
+                                    <figure class="media-left">
+                                        <p class="image is-48x48">
+                                            <img class="is-rounded"
+                                                 src="https://bulma.io/images/placeholders/128x128.png">
+                                        </p>
+                                    </figure>
+                                    <div class="media-content">
+                                        <div class="content">
+                                            <p>
+                                                <strong>{{reply.name}}</strong>
+                                                {{reply.content}}
+                                                <br>
+                                                <small>
+                                            <p v-if="reply.num_likes>0">{{reply.num_likes}}</p><a>Like</a> .
+                                            {{reply.post_date}}</small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                        <div class="media-right">
+                            <a><i class="fa fa-ellipsis-h"></i></a>
+                        </div>
+                    </article>
+                    <div class="field is-horizontal">
+                        <div class="field-body">
+                            <p class="image is-48x48">
+                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                            </p>
+                            <div class="field">
+                                <p class="control">
+                                    <input v-model="new_reply" class="input" type="email"
+                                           placeholder="Add a comment ...">
+                                </p>
+                            </div>
+                            <a @click="create_new_reply(post.id)" class="button is-warning"><strong>Comment</strong></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- If page is 2 -->
+            <div v-if="page == 2">
+                <!-- COMPONENT ADDED HERE -->
+                <about :url="about_url"></about>
+                <!-- Looks odd... But notice how we are using a component! -->
+            </div>
+            <!-- If page is 3 -->
+            <div v-if="page == 3">
+                <!-- COMPONENT ADDED HERE -->
+                <samplepage></samplepage>
+                <!-- Another component being used (ie. every page other than home is a component) -->
+            </div>
+        </div>
+    </div>
+</div>
