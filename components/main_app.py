@@ -67,9 +67,13 @@ class MainAppComponent(Fixture):
     def get_posts(self):
         # creates a list of main posts
         posts = self.db(self.db.posts.reply == None).select().as_list()
+        # reverse the lists so the newest posts show up first.
+        posts.reverse()
         # for every main post, adds a list of replies to that main post.
         for post in posts:
             post['replies'] = self.db(self.db.posts.reply == post['id']).select().as_list()
+            post['new_comment'] = ""
+            post['is_commenting'] = False
         return dict(posts=posts)
 
     def create_post(self):

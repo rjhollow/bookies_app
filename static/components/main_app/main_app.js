@@ -66,6 +66,8 @@
             post_date: res.data.date,
             replies: [],
             reply: null,
+            new_comment: "",
+            is_commenting: false,
             user: self.user_id
             
         });
@@ -75,31 +77,35 @@
   };
   
   main_app.methods.create_new_reply = function (post_idx) {
-    if (this.new_reply.length === 0) {
-      return;
-    }
+      
     let self = this;
     let post = self.posts[post_idx];
+    
+    if (post.new_comment.length === 0) {
+      return;
+    }
+    
     console.log(post);
+    console.log(post.new_comment);
     axios
       .post(self.create_reply_url, {
           id: post.id,
           name: self.fullname,
-          content: self.new_reply,
+          content: post.new_comment,
       })
       .then((res) => {
         console.log(post.replies);
         post.replies.push({
             id: res.data.id,
             name: self.fullname,
-            content: self.new_reply,
+            content: post.new_comment,
             num_likes: 0,
             post_date: "",
             reply: post.id,
             user: self.user_id
         });
-        console.log(post);
-        self.new_reply = "";
+        post.new_comment = "";
+        post.is_commenting = false;
       });
   };
 
@@ -114,6 +120,12 @@
   main_app.methods.route = function (page_num) {
     this.page = page_num;
   };
+  
+  main_app.methods.is_commenting = function (post_idx) {
+      let self = this;
+      let post = self.posts[post_idx];
+      post.is_commenting = true;
+  }
 
   utils.register_vue_component(
     "mainapp",

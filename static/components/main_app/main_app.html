@@ -64,7 +64,7 @@
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like</a>
-                                    <a class="level-item">Comment</a>
+                                    <a @click="is_commenting(post._idx)" class="level-item">Comment</a>
                                 </div>
                             </nav>
 
@@ -95,14 +95,14 @@
                             <a><i class="fa fa-ellipsis-h"></i></a>
                         </div>
                     </article>
-                    <div class="field is-horizontal">
+                    <div v-if="post.is_commenting" class="field is-horizontal">
                         <div class="field-body">
                             <p class="image is-48x48">
                                 <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
                             </p>
                             <div class="field">
                                 <p class="control">
-                                    <input v-model="new_reply" class="input is-rounded"
+                                    <input v-model="post.new_comment" class="input is-rounded"
                                            placeholder="Add a comment ...">
                                 </p>
                             </div>
