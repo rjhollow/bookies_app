@@ -20,96 +20,142 @@
             <!-- If page is 1 -->
             <div v-if="page == 1">
                 <div class="box">
-                    <article class="media has-background-white">
-                        <figure class="media-left">
-                            <p class="image is-64x64">
-                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                        </figure>
-                        <div class="media-content">
-                            <div class="field">
-                                <p>
-                                    <strong>{{fullname}}</strong>
-                                </p>
+                    <div class="columns">
+                        <div class="column is-2">
+                            <figure class="image is-2by3">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </figure>
+                            <div class="section">
+                                <p class="title is-size-7">Add a book to this post...</p>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <article class="media has-background-white">
+                                <figure class="media-left">
+                                    <p class="image is-64x64">
+                                        <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <div class="field">
+                                        <p>
+                                            <strong>{{fullname}}</strong>
+                                        </p>
                                 <p class="control">
                                     <textarea v-model="new_post" class="textarea"
                                               placeholder="Start a book discussion..."></textarea>
                                 </p>
-                            </div>
-                            <nav class="level is-mobile">
-                                <div class="level-left">
-                                    <a @click="create_new_post" class="button is-info"><strong>Post</strong></a>
+                                    </div>
+                                    <nav class="level is-mobile">
+                                        <div class="level-left">
+                                            <a @click="create_new_post" class="button is-info"><strong>Post</strong></a>
+                                        </div>
+                                    </nav>
                                 </div>
-                            </nav>
+                            </article>
                         </div>
-                    </article>
+                    </div>
                 </div>
 
-                <div class="box post" v-for="(post, index) in posts">
-                    <article class="media has-background-white">
-                        <figure class="media-left">
-                            <p class="image is-64x64">
-                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                        </figure>
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <strong>{{post.name}}</strong> <small>{{post.post_date}}</small>
-                                    <br>
-                                    {{post.content}}
-                                    <br>
-                                </p>
+                <div class="section post has-background-white" v-for="(post, index) in posts">
+                    <div class="columns">
+                        <div class="column is-2">
+                            <figure class="image is-2by3">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                            </figure>
+                            <div class="section">
+                                <nav class="level">
+                                    <div class="level-item has-text-centered">
+                                        <div>
+                                            <p class="title is-size-6">The Giver</p>
+                                            <p class="is-size-7">Lois Lowry</p>
+                                        </div>
+                                    </div>
+                                </nav>
                             </div>
-                            <nav class="level is-mobile">
-                                <div class="level-left">
-                                    <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like</a>
-                                    <a @click="is_commenting(post._idx)" class="level-item">Comment</a>
-                                </div>
-                            </nav>
+                        </div>
+                        <div class="column">
+                            <article class="media has-background-white">
+                                <figure class="media-left">
+                                    <p class="image is-64x64">
+                                        <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                                    </p>
+                                </figure>
+                                <div class="media-content">
+                                    <div class="content">
+                                        <p>
+                                            <strong>{{post.name}}</strong> <small>{{post.post_date}}</small>
+                                            <br>
+                                            {{post.content}}
+                                            <br>
+                                        </p>
+                                    </div>
+                                    <nav class="level is-mobile">
+                                        <div class="level-left">
+                                            <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like</a>
+                                            <div v-if="!post.show_comments">
+                                                <a v-if="!(post.replies==0)" @click="show_comments(post._idx)"
+                                                   class="level-item is-info"><strong>View all comments</strong></a>
+                                                <p v-if="post.replies==0" class="is-size-7">Be the first to comment on
+                                                    this post.</p>
+                                            </div>
+                                        </div>
+                                    </nav>
 
-                            <div v-for="reply in post.replies">
-                                <article class="media">
-                                    <figure class="media-left">
+                                    <div v-if="post.show_comments" v-for="reply in post.replies">
+                                        <article class="media">
+                                            <figure class="media-left">
+                                                <p class="image is-48x48">
+                                                    <img class="is-rounded"
+                                                         src="https://bulma.io/images/placeholders/128x128.png">
+                                                </p>
+                                            </figure>
+                                            <div class="media-content">
+                                                <article class="message is-info">
+                                                    <div class="message-body">
+                                                        <strong>{{reply.name}}</strong>
+                                                        {{reply.content}}
+                                                    </div>
+                                                </article>
+                                                <p v-if="reply.num_likes>0">{{reply.num_likes}}</p><a>Like</a> .
+                                                {{reply.post_date}}
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                                <div class="media-right">
+                                    <a><i class="fa fa-ellipsis-h"></i></a>
+                                </div>
+                            </article>
+
+                            <div class="section">
+                                <div class="columns">
+                                    <div class="column is-1">
                                         <p class="image is-48x48">
                                             <img class="is-rounded"
                                                  src="https://bulma.io/images/placeholders/128x128.png">
                                         </p>
-                                    </figure>
-                                    <div class="media-content">
-                                        <div class="content">
-                                            <p>
-                                                <strong>{{reply.name}}</strong>
-                                                {{reply.content}}
-                                                <br>
-                                                <small>
-                                            <p v-if="reply.num_likes>0">{{reply.num_likes}}</p><a>Like</a> .
-                                            {{reply.post_date}}</small>
-                                            </p>
+                                    </div>
+                                    <div class="column">
+                                        <div class="field is-horizontal">
+                                            <div class="field-body">
+                                                <div class="field">
+                                                    <p class="control">
+                                                        <input v-model="post.new_comment" class="input is-rounded"
+                                                               placeholder="Add a comment ...">
+                                                    </p>
+                                                </div>
+                                                <a @click="create_new_reply(post._idx)"
+                                                   class="button is-rounded is-info"><strong>Submit</strong></a>
+                                            </div>
                                         </div>
                                     </div>
-                                </article>
+                                </div>
                             </div>
-                        </div>
-                        <div class="media-right">
-                            <a><i class="fa fa-ellipsis-h"></i></a>
-                        </div>
-                    </article>
-                    <div v-if="post.is_commenting" class="field is-horizontal">
-                        <div class="field-body">
-                            <p class="image is-48x48">
-                                <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                            <div class="field">
-                                <p class="control">
-                                    <input v-model="post.new_comment" class="input is-rounded"
-                                           placeholder="Add a comment ...">
-                                </p>
-                            </div>
-                            <a @click="create_new_reply(post._idx)"
-                               class="button is-warning"><strong>Comment</strong></a>
                         </div>
                     </div>
+
+
                 </div>
             </div>
             <!-- If page is 2 -->

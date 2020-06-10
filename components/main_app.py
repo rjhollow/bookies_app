@@ -73,7 +73,7 @@ class MainAppComponent(Fixture):
         for post in posts:
             post['replies'] = self.db(self.db.posts.reply == post['id']).select().as_list()
             post['new_comment'] = ""
-            post['is_commenting'] = False
+            post['show_comments'] = False
         return dict(posts=posts)
 
     def create_post(self):

@@ -67,7 +67,7 @@
             replies: [],
             reply: null,
             new_comment: "",
-            is_commenting: false,
+            show_comments: false,
             user: self.user_id
             
         });
@@ -105,7 +105,7 @@
             user: self.user_id
         });
         post.new_comment = "";
-        post.is_commenting = false;
+        post.show_comments = true;
       });
   };
 
@@ -121,10 +121,10 @@
     this.page = page_num;
   };
   
-  main_app.methods.is_commenting = function (post_idx) {
+  main_app.methods.show_comments = function (post_idx) {
       let self = this;
       let post = self.posts[post_idx];
-      post.is_commenting = true;
+      post.show_comments = true;
   }
 
   utils.register_vue_component(
