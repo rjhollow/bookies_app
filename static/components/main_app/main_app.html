@@ -1,20 +1,30 @@
 <!-- TODO: complete -->
 <div class="section">
     <div class="columns">
-        <div class="column is-2 has-background-white" id="navigation">
-            <!-- Notice route(1), this means switch to page 1 -->
-            <div @click="route(1)" class="navigation-item">
-                Home
+        <div class="column is-2 has-background-light">
+            <div class="section">
+                <figure class="image is-128x128">
+                    <img class="is-rounded" src="https://bulma.io/images/placeholders/128x128.png">
+                </figure>
             </div>
-            <!-- Switch to page 2 -->
-            <div @click="route(2)" class="navigation-item">
-                About
+            <div @click="route(1)" class="section has-text-centered has-background-info-light">
+                <p :class="page === 1 ? 'title is-5 has-text-info' : 'has-text-grey'">
+                    <i class="fa fa-home"></i>
+                    Home Feed
+                </p>
             </div>
-            <!-- Switch to page 3 -->
-            <div @click="route(3)" class="navigation-item">
-                Sample Page
+            <div @click="route(2)" class="section has-text-centered">
+                <p :class="page === 2 ? 'title is-5 has-text-info' : 'has-text-grey'">
+                    <i class="fa fa-book"></i>
+                    Discover
+                </p>
             </div>
-            <!-- You could easily add N more pages! -->
+            <div @click="route(3)" class="section has-text-centered">
+                <p :class="page === 3 ? 'title is-5 has-text-info' : 'has-text-grey'">
+                    <i class="fa fa-user"></i>
+                    My Profile
+                </p>
+            </div>
         </div>
         <div class="column has-background-light">
             <!-- If page is 1 -->
@@ -94,7 +104,7 @@
                                     </p>
                                 </figure>
                                 <div class="media-content">
-                                    <div class="content">
+                                    <div>
                                         <p>
                                             <strong>{{post.name}}</strong> <small>{{post.post_date}}</small>
                                             <br>
@@ -102,13 +112,16 @@
                                             <br>
                                         </p>
                                     </div>
+
                                     <nav class="level is-mobile">
                                         <div class="level-left">
-                                            <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like</a>
-                                            <div v-if="!post.show_comments">
+                                            <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like
+                                                . </a>
+                                            <div class="level-item" v-if="!post.show_comments">
                                                 <a v-if="!(post.replies==0)" @click="show_comments(post._idx)"
-                                                   class="level-item is-info"><strong>View all comments</strong></a>
-                                                <p v-if="post.replies==0" class="level-item is-size-7">Be the first to
+                                                   class="is-info"><strong>View all comments</strong></a>
+                                                <p v-if="post.replies==0" class="is-size-7 has-text-grey">Be the first
+                                                    to
                                                     comment on this post.</p>
                                             </div>
                                         </div>
