@@ -27,14 +27,19 @@
   profile_page.methods.load = function () {
     let self = this;
     axios.get(self.get_profile_url, 
-                {params : {profile_id : this.id}
+                {params : {profile_id : self.profile_user_id}
         }).then((res) => {
-            self.current_user_id = res.data.user;
             self.fullname = res.data.full_name;
             self.posts = profile_page.enumerate(res.data.posts);
-            console.log(self.current_user_id);
-            console.log(self.profile_user_id);
+            console.log(res.data.test);
         });
+        
+    axios.get(self.user_url).then((res) => {
+        self.current_user_id = res.data.user;
+        console.log(self.current_user_id);
+        console.log(self.profile_user_id);
+    });
+    
   };
   
   profile_page.enumerate = (a) => {

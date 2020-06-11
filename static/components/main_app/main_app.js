@@ -36,6 +36,8 @@
     
     axios.get(self.user_url).then((res) => {
         self.user_id = res.data.user;
+        console.log(res.data.user);
+        console.log(self.user_id);
         self.fullname = res.data.full_name;
     });
   };
@@ -128,9 +130,17 @@
 
   // This route changes pages, super simple
   main_app.methods.route = function (page_num) {
-    this.page = page_num;
-    this.goto_profile = false;
-    this.profile_id = 0;
+    let self = this;
+    self.page = page_num;
+    self.goto_profile = false;
+    self.profile_id = 0;
+
+    if(page_num === 1){
+        axios.get(self.get_url).then((res) => {
+            self.posts = main_app.enumerate(res.data.posts);
+        });
+    }
+    
   };
   
   // This function shows comments on a given post.

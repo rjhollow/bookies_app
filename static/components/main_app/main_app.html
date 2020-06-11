@@ -63,7 +63,7 @@
                                                              src="https://bulma.io/images/placeholders/128x128.png">
                                                     </p>
                                                 </figure>
-                                                <p class="level-item"><strong>{{fullname}}</strong></p>
+                                                <a class="level-item"><strong>{{fullname}}</strong></a>
                                             </div>
                                         </nav>
                                         <div class="content">
@@ -122,13 +122,15 @@
 
                                         <nav class="level is-mobile">
                                             <div class="level-left">
-                                                <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like
+                                                <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>
+                                                    Like
                                                     . </a>
                                                 <div class="level-item" v-if="!post.show_comments">
                                                     <a v-if="!(post.replies==0)" @click="show_comments(post._idx)"
                                                        class="is-info">
                                                         <strong>View all comments</strong></a>
-                                                    <p v-if="post.replies==0" class="is-size-7 has-text-grey">Be the first
+                                                    <p v-if="post.replies==0" class="is-size-7 has-text-grey">Be the
+                                                        first
                                                         to
                                                         comment on this post.</p>
                                                 </div>

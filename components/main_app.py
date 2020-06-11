@@ -82,9 +82,9 @@ class MainAppComponent(Fixture):
 
     def get_profile(self):
         profile_id = request.params.get('profile_id')
-        user = self.get_current_user()
-        user_id = user['user']
-        name = user['full_name']
+        user = self.db(self.db.auth_user.id == profile_id).select().first()
+        name = user.first_name + " " + user.last_name
+
         # creates a list of main posts that only this user has created.
         posts = self.db((self.db.posts.reply == None) &
                         (self.db.posts.user == profile_id)).select().as_list()
@@ -95,7 +95,7 @@ class MainAppComponent(Fixture):
             post['replies'] = self.db(self.db.posts.reply == post['id']).select().as_list()
             post['new_comment'] = ""
             post['show_comments'] = False
-        return dict(user_id=user_id, full_name=name, posts=posts)
+        return dict(full_name=name, posts=posts, test=profile_id)
 
     def create_post(self):
         name = request.json.get('name')
