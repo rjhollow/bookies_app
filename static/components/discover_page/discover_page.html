@@ -8,16 +8,37 @@
             </span>
         </p>
     </div>
+    <div class="content">
+        <p>{{bestsellers}}</p>
+    </div>
     <div class="table-container">
         <table class="table is-fullwidth">
             <thead>
             <tr>
-                <th class="control title-1 has-text-grey-light">Search results from Google Books: <strong>Best
-                    Sellers</strong></th>
+                <th class="control title-1 has-text-grey-light">
+                    Best Sellers from Google Books
+                </th>
+
             </tr>
             </thead>
             <tbody>
-
+            <tr>
+                <td v-for="best in bestsellers" class="section">
+                    <figure class="image is-2by3">
+                        <img v-attr="src:best.volumeInfo.imageLinks.thumbnail">
+                    </figure>
+                    <div class="section">
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="title is-size-6">{{best.volumeInfo.title}}</p>
+                                    <p class="is-size-7">{{best.volumeInfo.authors[0]}}</p>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

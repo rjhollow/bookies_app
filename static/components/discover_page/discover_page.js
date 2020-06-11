@@ -11,6 +11,8 @@
     var data = {
         search_string: "",
         start_index: 0,
+        show_index: 0,
+        show_details: false,
         bookapi_key: "AIzaSyCqnUmI5Z6LDPsK-wSxTBgdPU5tUwu0W4M",
         api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query.
         bestsellers:[],
