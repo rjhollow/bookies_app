@@ -13,7 +13,8 @@
         start_index: 0,
         bookapi_key: "AIzaSyCqnUmI5Z6LDPsK-wSxTBgdPU5tUwu0W4M",
         api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query.
-        rows:[],
+        bestsellers:[],
+        query_books: [],
         get_url: this.url,
     };
     discover_page.methods.load.call(data);
@@ -27,8 +28,7 @@
         .then((res) => {
             console.log(api_url);
             console.log(res.data.items);
-            pre_rows = discover_page.enumerate(res.data.items);
-            discover_page.finalize_rows(pre_rows);
+            self.bestsellers = discover_page.enumerate(res.data.items);
             // let i=0;
             // let items = res.data.items;
             // let pre_rows = [];
@@ -43,28 +43,12 @@
             //     pre_rows.push({cells : discover_page.enumerate(cells)});
             //     i+=4;
             // }
-            console.log(self.rows);
+            console.log(self.bestsellers);
         }).catch(() => {
             console.log("There was a problem with the request.");
-            console.log(self.rows);
+            console.log(self.bestsellers);
         });
   };
-  
-  discover_page.finalize_rows = function (arr) {
-        let self = this;
-        let items = arr;
-        console.log(items);
-        axios.get(self.get_url, {params : {books : items}
-            }).then((res) => {
-                // self.rows = res.data.rows;
-                console.log(res.data.rows);
-                console.log(self.rows);
-                self.rows = res.data.rows;
-            }).catch((res) => {
-                console.log("The problem is in the call.");
-            });
-            
-  }
   
   discover_page.enumerate = (a) => {
         // This is a convenience function that adds a _idx field
