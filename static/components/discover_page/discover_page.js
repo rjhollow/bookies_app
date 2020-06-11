@@ -10,6 +10,7 @@
   discover_page.data = function () {
     var data = {
         search_string: "",
+        start_index: 0,
         bookapi_key: "AIzaSyCqnUmI5Z6LDPsK-wSxTBgdPU5tUwu0W4M",
         api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query.
         rows: [],
@@ -21,11 +22,29 @@
 
   discover_page.methods.load = function () {
     let self = this;
-    let api_url = self.api_base_uri + "volumes?q=best+sellers";
+    let api_url = self.api_base_uri + "volumes?q=best+sellers&startIndex=" + start_index + "&maxReturns=20";
     axios.get(api_url)
         .then((res) => {
             console.log(api_url);
             console.log(res.data.items);
+            
+            let i=0;
+            let items = res.data.items;
+            let pre_rows = [];
+            
+            while(i < items.length){ // creates a lists of rows with 4 cells in each row
+                let j = 0;
+                let cells = [];
+                while(j<4){
+                    cells.push(items[i+j])
+                    j++;
+                }
+                pre_rows.push(discover_page.enumerate(cells));
+                i+=4;
+            }
+            
+            self.rows = discover_page.enumerate(pre_rows);
+            console.log(self.rows);
         }).catch(() => {
             console.log("There was a problem with the request.");
         });
