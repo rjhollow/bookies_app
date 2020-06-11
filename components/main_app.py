@@ -53,7 +53,7 @@ class MainAppComponent(Fixture):
         self.get_user_url = self.base_url + "/get_current_user"
         self.create_post_url = self.base_url + "/create_post"
         self.create_reply_url = self.base_url + "/create_reply"
-        self.get_about_url = self.base_url + "/about"
+        self.get_about_url = self.base_url + "/get_about"
         self.delete_all_posts_url = self.base_url + "/clear"
 
     def create_route(self, url, method, protocol):
@@ -116,7 +116,9 @@ class MainAppComponent(Fixture):
         self.db(self.db.posts).delete()
 
     def get_about(self):
-        items = request.params.get('book_list')
+        items = request.params.get('books')
+        if items.len == 0:
+            return dict(rows=[])
         if items.len > 2:
             row0 = dict(
                 cells=[items[0], items[1], items[2]])
@@ -132,9 +134,9 @@ class MainAppComponent(Fixture):
                 cells=[items[6], items[7], items[8]])
         else:
             row2 = dict(cells=[])
-        if items.len > 10:
+        if items.len >= 10:
             row3 = dict(
-                cells=[items[9], items[10], items[11]])
+                cells=[items[9], items[10]])
         else:
             row3 = dict(cells=[])
         return dict(

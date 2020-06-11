@@ -46,18 +46,24 @@
             console.log(self.rows);
         }).catch(() => {
             console.log("There was a problem with the request.");
+            console.log(self.rows);
         });
   };
   
   discover_page.finalize_rows = function (arr) {
-      let self = this;
-      let items = arr;
-      axios.get(get_url, 
-                        {params : {book_list : items}
+        let self = this;
+        let items = arr;
+        console.log(items);
+        axios.get(self.get_url, {params : {books : items}
             }).then((res) => {
-                self.rows = res.data.rows;
+                // self.rows = res.data.rows;
                 console.log(res.data.rows);
-            })
+                console.log(self.rows);
+                self.rows = res.data.rows;
+            }).catch((res) => {
+                console.log("The problem is in the call.");
+            });
+            
   }
   
   discover_page.enumerate = (a) => {
