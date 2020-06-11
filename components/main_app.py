@@ -116,8 +116,27 @@ class MainAppComponent(Fixture):
         self.db(self.db.posts).delete()
 
     def get_about(self):
-        about = """We are a great company with a fantastic user base.
-        Be sure to check us out on all social media platforms for updates!
-        Copyright PostCo. 2020
-        """
-        return dict(about=about)
+        items = request.params.get('book_list')
+        if items.len > 2:
+            row0 = dict(
+                cells=[items[0], items[1], items[2]])
+        else:
+            row0 = dict(cells=[])
+        if items.len > 5:
+            row1 = dict(
+                cells=[items[3], items[4], items[5]])
+        else:
+            row1 = dict(cells=[])
+        if items.len > 8:
+            row2 = dict(
+                cells=[items[6], items[7], items[8]])
+        else:
+            row2 = dict(cells=[])
+        if items.len > 10:
+            row3 = dict(
+                cells=[items[9], items[10], items[11]])
+        else:
+            row3 = dict(cells=[])
+        return dict(
+            rows=[row0, row1, row2, row3]
+        )

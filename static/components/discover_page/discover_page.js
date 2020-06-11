@@ -13,7 +13,7 @@
         start_index: 0,
         bookapi_key: "AIzaSyCqnUmI5Z6LDPsK-wSxTBgdPU5tUwu0W4M",
         api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query.
-        rows: [],
+        rows:[],
         get_url: this.url,
     };
     discover_page.methods.load.call(data);
@@ -27,28 +27,38 @@
         .then((res) => {
             console.log(api_url);
             console.log(res.data.items);
+            pre_rows = discover_page.enumerate(res.data.items);
+            discover_page.finalize_rows(pre_rows);
+            // let i=0;
+            // let items = res.data.items;
+            // let pre_rows = [];
             
-            let i=0;
-            let items = res.data.items;
-            let pre_rows = [];
-            
-            while(i < items.length){ // creates a lists of rows with 4 cells in each row
-                let j = 0;
-                let cells = [];
-                while(j<4){
-                    cells.push(items[i+j])
-                    j++;
-                }
-                pre_rows.push({cells : discover_page.enumerate(cells)});
-                i+=4;
-            }
-            
-            self.rows = discover_page.enumerate(pre_rows);
+            // while(i < items.length){ // creates a lists of rows with 4 cells in each row
+            //     let j = 0;
+            //     let cells = [];
+            //     while(j<4){
+            //         cells.push(items[i+j])
+            //         j++;
+            //     }
+            //     pre_rows.push({cells : discover_page.enumerate(cells)});
+            //     i+=4;
+            // }
             console.log(self.rows);
         }).catch(() => {
             console.log("There was a problem with the request.");
         });
   };
+  
+  discover_page.finalize_rows = function (arr) {
+      let self = this;
+      let items = arr;
+      axios.get(get_url, 
+                        {params : {book_list : items}
+            }).then((res) => {
+                self.rows = res.data.rows;
+                console.log(res.data.rows);
+            })
+  }
   
   discover_page.enumerate = (a) => {
         // This is a convenience function that adds a _idx field
