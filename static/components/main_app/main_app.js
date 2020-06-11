@@ -14,6 +14,8 @@
       new_post: "",
       user_id: 0,
       fullname: "",
+      profile_id: 0,
+      goto_profile: false,
       get_url: this.get_posts_url,
       get_profile_url: this.get_profile_url,
       create_url: this.create_post_url,
@@ -115,18 +117,30 @@
       self.posts = [];
     });
   };
+  
+  main_app.methods.fetch_profile = function (post_idx){
+      let self = this;
+      let post = self.posts[post_idx];
+      self.profile_id = post.user;
+      self.goto_profile = true;
+      self.page = 0;
+  }
 
   // This route changes pages, super simple
   main_app.methods.route = function (page_num) {
     this.page = page_num;
+    this.goto_profile = false;
+    this.profile_id = 0;
   };
   
+  // This function shows comments on a given post.
   main_app.methods.show_comments = function (post_idx) {
       let self = this;
       let post = self.posts[post_idx];
       post.show_comments = true;
   }
   
+  // This function collapses comments on a given post.
   main_app.methods.collapse_comments = function (post_idx) {
       let self = this;
       let post = self.posts[post_idx];

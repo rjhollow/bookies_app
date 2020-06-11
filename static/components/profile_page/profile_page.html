@@ -20,7 +20,7 @@
                             <p class="title is-5">This is where the user's bookshelf will appear!</p>
                         </div>
                     </div>
-            </div>
+                </div>
                 <div class="column">
                     <div class="section">
                         <p class="title is-5 has-text-grey-lighter"><strong>Currently Reading</strong></p>
@@ -58,14 +58,14 @@
                                         </p>
                                     </figure>
                                     <p class="level-item"><strong>{{fullname}}</strong></p>
-                            </div>
-                        </nav>
-                        <div class="content">
-                            <p class="control">
+                                </div>
+                            </nav>
+                            <div class="content">
+                                <p class="control">
                                         <textarea v-model="new_post" class="textarea"
                                                   placeholder="Start a book discussion..."></textarea>
-                            </p>
-                        </div>
+                                </p>
+                            </div>
                             <nav class="level is-mobile">
                                 <div class="level-left">
                                     <a @click="create_new_post" class="button is-rounded is-info"><strong>Create
@@ -80,7 +80,7 @@
     </div>
 
     <div class="section has-background-white" v-for="(post, index) in posts">
-        <div class="columns">
+        <div class="columns section">
             <div class="column is-2">
                 <figure class="image is-2by3">
                     <img src="https://bulma.io/images/placeholders/128x128.png">
