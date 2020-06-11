@@ -22,7 +22,7 @@
 
   discover_page.methods.load = function () {
     let self = this;
-    let api_url = self.api_base_uri + "volumes?q=best+sellers&startIndex=" + start_index + "&maxReturns=20";
+    let api_url = self.api_base_uri + "volumes?q=best+sellers&startIndex=" + self.start_index + "&maxReturns=20";
     axios.get(api_url)
         .then((res) => {
             console.log(api_url);
@@ -39,7 +39,7 @@
                     cells.push(items[i+j])
                     j++;
                 }
-                pre_rows.push(discover_page.enumerate(cells));
+                pre_rows.push({cells : discover_page.enumerate(cells)});
                 i+=4;
             }
             
