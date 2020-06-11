@@ -1,6 +1,6 @@
 (function () {
   var main_app = {
-    props: ["get_posts_url", "create_post_url", "get_about_url", "delete_all", "get_user_url", "create_reply_url"],
+    props: ["get_posts_url", "create_post_url", "get_about_url", "delete_all", "get_user_url", "create_reply_url", "get_profile_url"],
     // Notice how we never actually use the get_about_url here!
     // That's because we pass it down to the child AboutPage component.
     data: {},
@@ -12,10 +12,10 @@
       page: 1, // There are currently 2 pages, 1 = home and 2 = about
       posts: [],
       new_post: "",
-      new_reply: "",
       user_id: 0,
       fullname: "",
       get_url: this.get_posts_url,
+      get_profile_url: this.get_profile_url,
       create_url: this.create_post_url,
       create_reply_url: this.create_reply_url,
       about_url: this.get_about_url,
@@ -125,6 +125,12 @@
       let self = this;
       let post = self.posts[post_idx];
       post.show_comments = true;
+  }
+  
+  main_app.methods.collapse_comments = function (post_idx) {
+      let self = this;
+      let post = self.posts[post_idx];
+      post.show_comments = false;
   }
 
   utils.register_vue_component(

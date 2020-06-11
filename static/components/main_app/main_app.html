@@ -26,6 +26,7 @@
                 </p>
             </div>
         </div>
+
         <div class="column has-background-light">
             <!-- If page is 1 -->
             <div v-if="page == 1">
@@ -98,7 +99,7 @@
                                 <div class="media-content">
                                     <div>
                                         <p>
-                                            <strong>{{post.name}}</strong> <small>{{post.post_date}}</small>
+                                            <a><strong>{{post.name}}</strong></a> <small>{{post.post_date}}</small>
                                             <br>
                                             {{post.content}}
                                             <br>
@@ -111,10 +112,15 @@
                                                 . </a>
                                             <div class="level-item" v-if="!post.show_comments">
                                                 <a v-if="!(post.replies==0)" @click="show_comments(post._idx)"
-                                                   class="is-info"><strong>View all comments</strong></a>
+                                                   class="is-info">
+                                                    <strong>View all comments</strong></a>
                                                 <p v-if="post.replies==0" class="is-size-7 has-text-grey">Be the first
                                                     to
                                                     comment on this post.</p>
+                                            </div>
+                                            <div class="level-item" v-if="post.show_comments">
+                                                <a @click="collapse_comments(post._idx)" class="is-info">
+                                                    <strong>Collapse all comments</strong></a>
                                             </div>
                                         </div>
                                     </nav>
@@ -130,8 +136,9 @@
                                             <div class="media-body">
                                                 <article class="message is-info">
                                                     <div class="message-body">
-                                                        <p><strong>{{reply.name}}</strong> {{reply.post_date}}</p>
-                                                        {{reply.content}}
+                                                        <p><strong>{{reply.name}}</strong> {{reply.post_date}}
+                                                            {{reply.content}}</p>
+
                                                     </div>
                                                 </article>
                                             </div>
@@ -181,7 +188,11 @@
             <!-- If page is 3 -->
             <div v-if="page == 3">
                 <!-- COMPONENT ADDED HERE -->
-                <profilepage></profilepage>
+                <profilepage :id="user_id"
+                             :get_profile_url="get_profile_url"
+                             :get_user_url="get_user_url"
+                             :create_post_url="create_post_url"
+                             :create_reply_url="create_reply_url"></profilepage>
                 <!-- Another component being used (ie. every page other than home is a component) -->
             </div>
         </div>

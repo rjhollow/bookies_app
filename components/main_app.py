@@ -8,6 +8,7 @@ class MainAppComponent(Fixture):
     # The main app leaves spots for all of its props to be passed (prop = data being passed down)
     MAINAPP = """<mainapp 
     get_posts_url={get_posts_url}
+    get_profile_url={get_profile_url}
     get_user_url={get_user_url}
     create_post_url={create_post_url}
     create_reply_url={create_reply_url}
@@ -27,6 +28,7 @@ class MainAppComponent(Fixture):
         self.define_urls()
 
         self.create_route(self.get_posts_url, self.get_posts, "GET")
+        self.create_route(self.get_profile_url, self.get_profile, "GET")
         self.create_route(self.get_user_url, self.get_current_user, "GET")
         self.create_route(self.get_about_url, self.get_about, "GET")
         self.create_route(self.delete_all_posts_url,
@@ -37,6 +39,7 @@ class MainAppComponent(Fixture):
     def __call__(self, img_id=None):  # turn our class into HTML
         return XML(MainAppComponent.MAINAPP.format(
             get_posts_url=URL(self.get_posts_url, signer=self.signer),
+            get_profile_url=URL(self.get_profile_url, signer=self.signer),
             get_user_url=URL(self.get_user_url, signer=self.signer),
             create_post_url=URL(self.create_post_url, signer=self.signer),
             create_reply_url=URL(self.create_reply_url, signer=self.signer),
@@ -46,6 +49,7 @@ class MainAppComponent(Fixture):
 
     def define_urls(self):
         self.get_posts_url = self.base_url + "/get_posts"
+        self.get_profile_url = self.base_url + "/get_profile"
         self.get_user_url = self.base_url + "/get_current_user"
         self.create_post_url = self.base_url + "/create_post"
         self.create_reply_url = self.base_url + "/create_reply"
@@ -58,9 +62,9 @@ class MainAppComponent(Fixture):
 
     def get_current_user(self):
         if self.auth.current_user:
-            user = self.auth.current_user.get('id')
+            user_id = self.auth.current_user.get('id')
             name = self.auth.current_user.get('first_name') + " " + self.auth.current_user.get('last_name')
-            return dict(user=user, full_name=name)
+            return dict(user=user_id, full_name=name)
         else:
             return dict()
 
@@ -75,6 +79,23 @@ class MainAppComponent(Fixture):
             post['new_comment'] = ""
             post['show_comments'] = False
         return dict(posts=posts)
+
+    def get_profile(self):
+        profile_id = request.params.get('profile_id')
+        user = self.get_current_user()
+        user_id = user['user']
+        name = user['full_name']
+        # creates a list of main posts that only this user has created.
+        posts = self.db((self.db.posts.reply == None) &
+                        (self.db.posts.user == profile_id)).select().as_list()
+        # reverse the lists so the newest posts show up first.
+        posts.reverse()
+        # for every main post, adds a list of replies to that main post.
+        for post in posts:
+            post['replies'] = self.db(self.db.posts.reply == post['id']).select().as_list()
+            post['new_comment'] = ""
+            post['show_comments'] = False
+        return dict(user_id=user_id, full_name=name, posts=posts)
 
     def create_post(self):
         name = request.json.get('name')
