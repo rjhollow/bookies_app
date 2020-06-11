@@ -197,9 +197,11 @@
                 </div>
                 <!-- If page is 2 -->
                 <div v-if="page == 2">
-                    <!-- COMPONENT ADDED HERE -->
-                    <discover :url="about_url"></discover>
-                    <!-- Looks odd... But notice how we are using a component! -->
+                    <div class="section">
+                        <!-- COMPONENT ADDED HERE -->
+                        <discover :url="about_url"></discover>
+                        <!-- Looks odd... But notice how we are using a component! -->
+                    </div>
                 </div>
                 <!-- If page is 3 -->
                 <div v-if="page == 3">

@@ -60,7 +60,15 @@
         return a;
     };
   
-  discover_page.convert_to_query = function (str){
+  discover_page.methods.get_image = (book_list, book_idx) => {
+        // This is a convenience function that adds a _idx field
+        // to each element of the array.
+        let books =  book_list;
+        let book = books[book_idx];
+        return book.volumeInfo.imageLinks.smallThumbnail;
+    };
+    
+  discover_page.convert_to_query = function (str) {
       let self = this;
       let words = self.search_string.split(" ");
       let query = words.join("+");
