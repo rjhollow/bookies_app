@@ -75,40 +75,44 @@
         </div>
     </div>
 
-    <div :class="(show_details === true) ? 'modal is-active is-clipped' : 'modal'">
+    <div :class="show_details ? 'modal is-active' : 'modal'">
         <div class="modal-background"></div>
         <div class="modal-card">
             <header class="modal-card-head">
                 <p class="modal-card-title">{{book_title}}</p>
                 <p class="title is-2 has-text-grey">{{book_subtitle}}</p>
-                <button @click="close_details" class="delete" aria-label="close"></button>
+                <button class="delete" aria-label="close" @click="close_details"></button>
             </header>
             <section class="modal-card-body">
                 <div class="section">
                     <div class="columns">
                         <div class="column">
                             <figure class="image is-2by3">
-                                <img :src="get_book_img">
+                                <img src="https://bulma.io/images/placeholders/128x128.png">
                             </figure>
                         </div>
                         <div class="column">
                             <nav class="level">
                                 <div class="level-left">
                                     <div class="level-item">
-                                        <p class="section is-size-7 has-text-grey-light"><strong>Title: </strong>{{book_title}}
-                                        </p>
-                                        <p class="section is-size-7 has-text-grey-light"><strong>Subtitle: </strong>{{book_subtitle}}
-                                        </p>
-                                        <p class="section is-size-7 has-text-grey-light"><strong>Author: </strong>{{book_author}}
-                                        </p>
-                                        <p class="section is-size-7 has-text-grey-light"><strong>Pages: </strong>{{book_pageCount}}
-                                        </p>
-                                        <p class="section is-size-7 has-text-grey-light"><strong>Type: </strong>{{book_type}}
-                                        </p>
-                                        <p class="section is-size-7 has-text-grey-light"><strong>Publisher: </strong>{{book_publisher}}
-                                        </p>
-                                        <p class="section is-size-7 has-text-grey-light"><strong>Published
-                                            Date: </strong>{{book_publishDate}}</p>
+                                        <div>
+                                            <p class="section is-size-7 has-text-grey-light"><strong>Title: </strong>{{book_title}}
+                                            </p>
+                                            <p class="section is-size-7 has-text-grey-light"><strong>Subtitle: </strong>{{book_subtitle}}
+                                            </p>
+                                            <p class="section is-size-7 has-text-grey-light"><strong>Author: </strong>{{book_author}}
+                                            </p>
+                                            <p class="section is-size-7 has-text-grey-light"><strong>Pages: </strong>{{book_pageCount}}
+                                            </p>
+                                            <p class="section is-size-7 has-text-grey-light"><strong>Type: </strong>{{book_type}}
+                                            </p>
+                                            <p class="section is-size-7 has-text-grey-light">
+                                                <strong>Publisher: </strong>{{book_publisher}}
+                                            </p>
+                                            <p class="section is-size-7 has-text-grey-light"><strong>Published
+                                                Date: </strong>{{book_publishdate}}</p>
+                                        </div>
+
                                     </div>
                                 </div>
                             </nav>
@@ -129,5 +133,6 @@
             </footer>
         </div>
     </div>
+
 
 </div>

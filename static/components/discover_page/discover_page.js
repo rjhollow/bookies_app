@@ -84,16 +84,14 @@
     discover_page.methods.get_book_img = () => {
         // This is a convenience function that adds a _idx field
         // to each element of the array.
-        let self = this;
-        return self.book_img;
+        return this.book_img;
     };
 
     discover_page.methods.display_details = (book_list, book_idx) => {
         // This is a convenience function that adds a _idx field
         // to each element of the array
         
-        let self = this;
-        self.show_details = true;
+        this.show_details = true;
         let books = book_list;
         let book = books[book_idx];
         self.book_title = book.volumeInfo.title;
@@ -106,14 +104,14 @@
         self.book_publisher = book.volumeInfo.publisher;
         self.book_publishdate = book.volumeInfo.publishedDate;
         console.log(book);
-        console.log(self.book_title);
+        console.log(this.show_details);
     };
     
     discover_page.methods.close_details = () => {
         // This is a convenience function that adds a _idx field
         // to each element of the array.
-        let self = this;
-        self.show_details = false;
+        this.show_details = false;
+        console.log(this.show_details);
         console.log('details have been closed');
     };
     
