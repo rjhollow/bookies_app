@@ -9,13 +9,28 @@
 
   main_app.data = function () {
     var data = {
+      api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query.
       page: 1, // There are currently 2 pages, 1 = home and 2 = about
       posts: [],
       new_post: "",
       user_id: 0,
       fullname: "",
       profile_id: 0,
+      search: "",
       goto_profile: false,
+      show: false,
+      book: true,
+      book_pinned: false,
+      post_bookid: "",
+      book_title: "",
+      book_subtitle: "",
+      book_author: "",
+      book_img: "",
+      book_desc: "",
+      book_pageCount: 0,
+      book_type: "",
+      book_publisher: "",
+      book_publishdate: "",
       get_url: this.get_posts_url,
       get_profile_url: this.get_profile_url,
       create_url: this.create_post_url,
@@ -72,7 +87,10 @@
             reply: null,
             new_comment: "",
             show_comments: false,
-            user: self.user_id
+            user: self.user_id,
+            book_title: res.data.title,
+            book_author: res.data.author,
+            book_img: res.data.image,
             
         });
         self.posts = main_app.enumerate(all_posts);
@@ -142,6 +160,10 @@
     }
     
   };
+  
+  main_app.methods.book_image = function(post_idx){
+      
+  }
   
   // This function shows comments on a given post.
   main_app.methods.show_comments = function (post_idx) {

@@ -39,6 +39,42 @@
                 <!-- Another component being used (ie. every page other than home is a component) -->
             </div>
 
+            <div :class="book ? 'modal is-active is-clipped' : 'modal'">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <div class="section">
+                        <nav class="level">
+                            <div class="level-left">
+                                <div class="level-item">
+                                    <div class="field">
+                                        <p class="control has-icons-left">
+                                            <input v-model="search" class="input" placeholder="Search">
+                                            <span class="icon is-small is-left">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <p class="level-item"><a class="icon is-small is-info">
+                                    <i class="fa fa-search"></i>
+                                </a></p>
+                            </div>
+                        </nav>
+
+                    </div>
+                    <p class="image is-3by5">
+                        <img src="https://bulma.io/images/placeholders/1280x960.png">
+                    </p>
+                    <div class="section">
+                        <a class="button is-success">Confirm</a>
+                        <a class="button is-danger">Cancel</a>
+                    </div>
+                </div>
+                <button class="modal-close is-large" aria-label="close"></button>
+            </div>
+
             <div v-if="!goto_profile">
                 <!-- If page is 1 -->
                 <div v-if="page == 1">
