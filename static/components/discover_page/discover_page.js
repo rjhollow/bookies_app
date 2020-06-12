@@ -9,10 +9,12 @@
 
   discover_page.data = function () {
     var data = {
+        field_string: "",
         search_string: "",
         start_index: 0,
         show_index: 0,
         show_details: false,
+        show_query: false,
         bookapi_key: "AIzaSyCqnUmI5Z6LDPsK-wSxTBgdPU5tUwu0W4M",
         api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query.
         bestsellers:[],
@@ -68,13 +70,37 @@
         return book.volumeInfo.imageLinks.smallThumbnail;
     };
     
+  discover_page.methods.run_query = (str) => {
+        // This is a convenience function that adds a _idx field
+        // to each element of the array.
+        console.log(self.api_base_uri);
+        let p = discover_page.convert_to_query(str);
+        let query_url = "https://www.googleapis.com/books/v1/volumes?q=" + p + "&startIndex=0&maxReturns=20";
+        
+        axios.get(query_url)
+            .then((res) => {
+                console.log(query_url);
+                console.log(res.data.items);
+                this.query_books = discover_page.enumerate(res.data.items);
+            }).catch(() => {
+                console.log("There was a problem with the query.");
+                console.log(self.query_books);
+                console.log(query_url);
+            });
+            
+        console.log(this.query_books);
+        self.field_string = "";
+        self.search_string = str;
+        self.show_query = true;
+    };
+
   discover_page.convert_to_query = function (str) {
       let self = this;
-      let words = self.search_string.split(" ");
+      let words = str.split(" ");
       let query = words.join("+");
       console.log(query);
       return query;
-  }
+  };
 
   utils.register_vue_component(
     "discover",
