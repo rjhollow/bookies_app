@@ -110,33 +110,6 @@
         return book.volumeInfo.imageLinks.smallThumbnail;
     };
     
-    // discover_page.methods.get_book_img = function(){
-    //     // This is a convenience function that adds a _idx field
-    //     // to each element of the array.
-    //     let self = this;
-    //     return self.book_img;
-    // };
-
-    // discover_page.methods.display_details = (book_list, book_idx) => {
-    //     // This is a convenience function that adds a _idx field
-    //     // to each element of the array
-        
-    //     this.show_details = true;
-    //     let books = book_list;
-    //     let book = books[book_idx];
-    //     self.book_title = book.volumeInfo.title;
-    //     self.book_subtitle = book.volumeInfo.subtitle;
-    //     self.book_author = book.volumeInfo.authors[0];
-    //     self.book_img = book.volumeInfo.imageLinks.thumbnail;
-    //     self.book_desc = book.volumeInfo.description;
-    //     self.book_pageCount = book.volumeInfo.pageCount;
-    //     self.book_type = book.volumeInfo.printType;
-    //     self.book_publisher = book.volumeInfo.publisher;
-    //     self.book_publishdate = book.volumeInfo.publishedDate;
-    //     console.log(book);
-    //     console.log(this.show_details);
-    // };
-    
     discover_page.methods.close_details = () => {
         // This is a convenience function that adds a _idx field
         // to each element of the array.

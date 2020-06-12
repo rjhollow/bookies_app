@@ -19,6 +19,7 @@
       search_string: "",
       goto_profile: false,
       show: false,
+      pressed_search: false,
       add_book: true,
       book_pinned: false,
       post_bookid: "",
@@ -71,6 +72,13 @@
   main_app.methods.get_book = function() {
       let self = this;
       self.add_book = true;
+  };
+  
+  main_app.methods.cover_art = function() {
+      let self = this;
+      let image = self.post_bookimg;
+      console.log(image);
+      return image;
   }
   
   main_app.methods.book_query = function(title){
@@ -83,11 +91,14 @@
                 let book = res.data.items[0];
                 console.log(book);
                 self.post_bookid = book.id;
-                self.post_bookimg = book.volumeInfo.imageLinks.smallThumbnail;
+                self.post_bookimg = book.volumeInfo.imageLinks.thumbnail;
                 self.post_title = book.volumeInfo.title;
+                console.log(self.post_bookimg);
                 self.post_author = book.volumeInfo.authors[0];
+                self.book_pinned = true;
+                self.pressed_search = true;
             })
-  }
+  };
   
   main_app.methods.cancel_book = function() {
       let self = this;
@@ -96,13 +107,13 @@
       self.post_bookimg = "";
       self.post_title = "";
       self.post_author = "";
-  }
+  };
   
   main_app.methods.confirm_book = function(){
       let self = this;
       self.add_book = false;
       self.book_pinned = true;
-  }
+  };
 
   main_app.methods.create_new_post = function () {
     let self = this;
@@ -192,7 +203,14 @@
       self.profile_id = post.user;
       self.goto_profile = true;
       self.page = 0;
-  }
+  };
+  
+//   main_app.methods.post_image = function(post_idx) {
+//       let self = this;
+//       let image = self.post_bookimg;
+//       console.log(self.post_bookimg);
+//       return image;
+//   };
 
   // This route changes pages, super simple
   main_app.methods.route = function (page_num) {
@@ -215,23 +233,19 @@
         return query;
     };
   
-  main_app.methods.book_image = function(post_idx){
-      
-  }
-  
   // This function shows comments on a given post.
-  main_app.methods.show_comments = function (post_idx) {
+  main_app.methods.show_comments = function (post_idx){
       let self = this;
       let post = self.posts[post_idx];
       post.show_comments = true;
-  }
+  };
   
   // This function collapses comments on a given post.
   main_app.methods.collapse_comments = function (post_idx) {
       let self = this;
       let post = self.posts[post_idx];
       post.show_comments = false;
-  }
+  };
 
   utils.register_vue_component(
     "mainapp",
