@@ -15,9 +15,7 @@
       fullname: "",
       current_user_id: 0,
       profile_user_id: this.id,
-      get_profile_url: this.get_profile_url,
       create_url: this.create_post_url,
-      create_reply_url: this.create_reply_url,
       user_url: this.get_user_url,
     };
     profile_page.methods.load.call(data);

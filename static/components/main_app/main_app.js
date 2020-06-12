@@ -16,10 +16,10 @@
       user_id: 0,
       fullname: "",
       profile_id: 0,
-      search: "",
+      search_string: "",
       goto_profile: false,
       show: false,
-      book: true,
+      add_book: true,
       book_pinned: false,
       post_bookid: "",
       book_title: "",
@@ -53,6 +53,7 @@
         self.user_id = res.data.user;
         console.log(res.data.user);
         console.log(self.user_id);
+        console.log(self.book);
         self.fullname = res.data.full_name;
     });
   };
@@ -97,6 +98,8 @@
         self.new_post = "";
       });
   };
+  
+  main_app.methods.
   
   main_app.methods.create_new_reply = function (post_idx) {
       
