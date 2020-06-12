@@ -22,6 +22,9 @@
       add_book: true,
       book_pinned: false,
       post_bookid: "",
+      post_bookimg: "",
+      post_author: "",
+      post_title: "",
       book_title: "",
       book_subtitle: "",
       book_author: "",
@@ -64,12 +67,52 @@
         a.map((e) => {e._idx = k++;});
         return a;
     };
+    
+  main_app.methods.get_book = function() {
+      let self = this;
+      self.add_book = true;
+  }
+  
+  main_app.methods.book_query = function(title){
+      let self = this;
+      let params = main_app.convert_to_query(title);
+      let api_url = self.api_base_uri + "volumes?q=intitle:" + params;
+      console.log(api_url);
+      axios.get(api_url)
+            .then((res) => {
+                let book = res.data.items[0];
+                console.log(book);
+                self.post_bookid = book.id;
+                self.post_bookimg = book.volumeInfo.imageLinks.smallThumbnail;
+                self.post_title = book.volumeInfo.title;
+                self.post_author = book.volumeInfo.authors[0];
+            })
+  }
+  
+  main_app.methods.cancel_book = function() {
+      let self = this;
+      self.add_book = false;
+      self.post_bookid = "";
+      self.post_bookimg = "";
+      self.post_title = "";
+      self.post_author = "";
+  }
+  
+  main_app.methods.confirm_book = function(){
+      let self = this;
+      self.add_book = false;
+      self.book_pinned = true;
+  }
 
   main_app.methods.create_new_post = function () {
+    let self = this;
+    if (self.book_pinned === false){
+        self.add_book = true;
+        return;
+    }
     if (this.new_post.length === 0) {
       return;
     }
-    let self = this;
     let all_posts = self.posts
     axios
       .post(self.create_url, {
@@ -95,6 +138,11 @@
         });
         self.posts = main_app.enumerate(all_posts);
         self.new_post = "";
+        self.book_pinned = false;
+        self.post_bookid = "";
+        self.post_bookimg = "";
+        self.post_title = "";
+        self.post_author = "";
       });
   };
   
@@ -160,6 +208,12 @@
     }
     
   };
+  
+  main_app.convert_to_query = function (str) {
+        let words = str.split(" ");
+        let query = words.join("+");
+        return query;
+    };
   
   main_app.methods.book_image = function(post_idx){
       
