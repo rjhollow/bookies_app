@@ -14,6 +14,7 @@
             start_index: 0,
             show_index: 0,
             show_details: false,
+            show: false,
             show_query: false,
             bookapi_key: "AIzaSyCqnUmI5Z6LDPsK-wSxTBgdPU5tUwu0W4M",
             api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query.
@@ -72,6 +73,34 @@
       }
       
     };
+    
+    discover_page.methods.show_book = function(book_list, book_idx) {
+        let self = this;
+        self.show = true;
+        let books = book_list;
+        let book = books[book_idx];
+        self.book_title = book.volumeInfo.title;
+        self.book_subtitle = book.volumeInfo.subtitle;
+        self.book_author = book.volumeInfo.authors[0];
+        self.book_img = book.volumeInfo.imageLinks.smallThumbnail;
+        self.book_desc = book.volumeInfo.description;
+        self.book_pageCount = book.volumeInfo.pageCount;
+        self.book_type = book.volumeInfo.printType;
+        self.book_publisher = book.volumeInfo.publisher;
+        self.book_publishdate = book.volumeInfo.publishedDate;
+    }
+    
+    discover_page.methods.close_book = function() {
+        let self = this;
+        self.show = false;
+    }
+    
+    discover_page.methods.book_img = function() {
+        let self = this;
+        image = self.book_img;
+        console.log(image);
+        return image;
+    }
   
     discover_page.methods.get_image = (book_list, book_idx) => {
         // This is a convenience function that adds a _idx field
@@ -81,31 +110,32 @@
         return book.volumeInfo.imageLinks.smallThumbnail;
     };
     
-    discover_page.methods.get_book_img = () => {
-        // This is a convenience function that adds a _idx field
-        // to each element of the array.
-        return this.book_img;
-    };
+    // discover_page.methods.get_book_img = function(){
+    //     // This is a convenience function that adds a _idx field
+    //     // to each element of the array.
+    //     let self = this;
+    //     return self.book_img;
+    // };
 
-    discover_page.methods.display_details = (book_list, book_idx) => {
-        // This is a convenience function that adds a _idx field
-        // to each element of the array
+    // discover_page.methods.display_details = (book_list, book_idx) => {
+    //     // This is a convenience function that adds a _idx field
+    //     // to each element of the array
         
-        this.show_details = true;
-        let books = book_list;
-        let book = books[book_idx];
-        self.book_title = book.volumeInfo.title;
-        self.book_subtitle = book.volumeInfo.subtitle;
-        self.book_author = book.volumeInfo.authors[0];
-        self.book_img = book.volumeInfo.imageLinks.thumbnail;
-        self.book_desc = book.volumeInfo.description;
-        self.book_pageCount = book.volumeInfo.pageCount;
-        self.book_type = book.volumeInfo.printType;
-        self.book_publisher = book.volumeInfo.publisher;
-        self.book_publishdate = book.volumeInfo.publishedDate;
-        console.log(book);
-        console.log(this.show_details);
-    };
+    //     this.show_details = true;
+    //     let books = book_list;
+    //     let book = books[book_idx];
+    //     self.book_title = book.volumeInfo.title;
+    //     self.book_subtitle = book.volumeInfo.subtitle;
+    //     self.book_author = book.volumeInfo.authors[0];
+    //     self.book_img = book.volumeInfo.imageLinks.thumbnail;
+    //     self.book_desc = book.volumeInfo.description;
+    //     self.book_pageCount = book.volumeInfo.pageCount;
+    //     self.book_type = book.volumeInfo.printType;
+    //     self.book_publisher = book.volumeInfo.publisher;
+    //     self.book_publishdate = book.volumeInfo.publishedDate;
+    //     console.log(book);
+    //     console.log(this.show_details);
+    // };
     
     discover_page.methods.close_details = () => {
         // This is a convenience function that adds a _idx field
