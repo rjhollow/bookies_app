@@ -9,26 +9,59 @@
             </span>
             </p>
         </div>
-        <a @click="run_query(field_string)" class="button is-info">Fetch</a>
+        <a @click="get_query(field_string)" class="button is-info">Fetch</a>
     </div>
 
     <div v-if="show_query">
-        <p class="control title is-5 has-text-grey">Search results from Google Books: <strong>{{search_string}}</strong>
-        </p>
+        <div class="section">
+            <p class="control title is-5 has-text-grey">Search results from Google Books:
+                <strong>{{search_string}}</strong></p>
+            <div class="box">
+                <div class="table-container">
+                    <table class="table">
+                        <tbody>
+                        <tr class="columns">
+                            <td v-for="book in querybooks" class="column">
+                                <div @click="display_details(querybooks, book._idx)" class="section">
+                                    <nav class="level">
+                                        <div class="level-item">
+                                            <div class="section">
+                                                <img class="image is-128x128" :src="get_image(querybooks, book._idx)">
+                                                <div class="section has-text-centered">
+                                                    <p class="title is-size-6">{{book.volumeInfo.title}}</p>
+                                                    <p class="is-size-7">{{book.volumeInfo.authors[0]}}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="section">
+        <p class="control title is-5 has-text-grey">Best Sellers from Google Books</p>
         <div class="box">
             <div class="table-container">
                 <table class="table">
                     <tbody>
                     <tr class="columns">
-                        <td v-for="book in query_books" class="column">
-                            <div class="section">
+                        <td v-for="best in bestsellers" class="column">
+                            <div @click="display_details(bestsellers, best._idx)" class="section">
                                 <nav class="level">
                                     <div class="level-item">
                                         <div class="section">
-                                            <img class="image is-128x128" :src="get_image(query_books, book._idx)">
+                                            <img class="image is-rectangle is-128x128"
+                                                 :src="get_image(bestsellers, best._idx)">
                                             <div class="section has-text-centered">
-                                                <p class="title is-size-6">{{book.volumeInfo.title}}</p>
-                                                <p class="is-size-7">{{book.volumeInfo.authors[0]}}</p>
+                                                <p class="title is-size-6">{{best.volumeInfo.title}}</p>
+                                                <p class="is-size-7">{{best.volumeInfo.authors[0]}}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -42,31 +75,58 @@
         </div>
     </div>
 
-    <p class="control title is-5 has-text-grey">Best Sellers from Google Books</p>
-    <div class="box">
-        <div class="table-container">
-            <table class="table">
-                <tbody>
-                <tr class="columns">
-                    <td v-for="best in bestsellers" class="column">
-                        <div class="section">
+    <div :class="(show_details === true) ? 'modal is-active is-clipped' : 'modal'">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head">
+                <p class="modal-card-title">{{book_title}}</p>
+                <p class="title is-2 has-text-grey">{{book_subtitle}}</p>
+                <button @click="close_details" class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+                <div class="section">
+                    <div class="columns">
+                        <div class="column">
+                            <figure class="image is-2by3">
+                                <img :src="get_book_img">
+                            </figure>
+                        </div>
+                        <div class="column">
                             <nav class="level">
-                                <div class="level-item">
-                                    <div class="section">
-                                        <img class="image is-rectangle is-128x128"
-                                             :src="get_image(bestsellers, best._idx)">
-                                        <div class="section has-text-centered">
-                                            <p class="title is-size-6">{{best.volumeInfo.title}}</p>
-                                            <p class="is-size-7">{{best.volumeInfo.authors[0]}}</p>
-                                        </div>
+                                <div class="level-left">
+                                    <div class="level-item">
+                                        <p class="section is-size-7 has-text-grey-light"><strong>Title: </strong>{{book_title}}
+                                        </p>
+                                        <p class="section is-size-7 has-text-grey-light"><strong>Subtitle: </strong>{{book_subtitle}}
+                                        </p>
+                                        <p class="section is-size-7 has-text-grey-light"><strong>Author: </strong>{{book_author}}
+                                        </p>
+                                        <p class="section is-size-7 has-text-grey-light"><strong>Pages: </strong>{{book_pageCount}}
+                                        </p>
+                                        <p class="section is-size-7 has-text-grey-light"><strong>Type: </strong>{{book_type}}
+                                        </p>
+                                        <p class="section is-size-7 has-text-grey-light"><strong>Publisher: </strong>{{book_publisher}}
+                                        </p>
+                                        <p class="section is-size-7 has-text-grey-light"><strong>Published
+                                            Date: </strong>{{book_publishDate}}</p>
                                     </div>
                                 </div>
                             </nav>
+
                         </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <p class="is-size-6 has-text-grey-light"><strong>Description:</strong></p>
+                </div>
+                <p>{{book_desc}}</p>
+            </section>
+            <footer class="modal-card-foot">
+                <button class="button is-success">Add to Bookshelf</button>
+                <button class="button">Currently Reading</button>
+                <button class="button">Cancel</button>
+            </footer>
         </div>
     </div>
 
