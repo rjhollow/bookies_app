@@ -53,7 +53,6 @@
         self.user_id = res.data.user;
         console.log(res.data.user);
         console.log(self.user_id);
-        console.log(self.book);
         self.fullname = res.data.full_name;
     });
   };
@@ -98,8 +97,6 @@
         self.new_post = "";
       });
   };
-  
-  main_app.methods.
   
   main_app.methods.create_new_reply = function (post_idx) {
       
