@@ -15,7 +15,9 @@
       fullname: "",
       current_user_id: 0,
       profile_user_id: this.id,
+      get_profile_url: this.get_profile_url,
       create_url: this.create_post_url,
+      create_reply_url: this.create_reply_url,
       user_url: this.get_user_url,
     };
     profile_page.methods.load.call(data);
@@ -24,22 +26,22 @@
 
   profile_page.methods.load = function () {
     let self = this;
-    axios.get(self.get_profile_url, 
+    axios.get(self.get_profile_url,
                 {params : {profile_id : self.profile_user_id}
         }).then((res) => {
             self.fullname = res.data.full_name;
             self.posts = profile_page.enumerate(res.data.posts);
             console.log(res.data.test);
         });
-        
+
     axios.get(self.user_url).then((res) => {
         self.current_user_id = res.data.user;
         console.log(self.current_user_id);
         console.log(self.profile_user_id);
     });
-    
+
   };
-  
+
   profile_page.enumerate = (a) => {
         // This is a convenience function that adds a _idx field
         // to each element of the array.
@@ -71,22 +73,22 @@
             new_comment: "",
             show_comments: false,
             user: self.user_id
-            
+
         });
         self.posts = profile_page.enumerate(all_posts);
         self.new_post = "";
       });
   };
-  
+
   profile_page.methods.create_new_reply = function (post_idx) {
-      
+
     let self = this;
     let post = self.posts[post_idx];
-    
+
     if (post.new_comment.length === 0) {
       return;
     }
-    
+
     console.log(post);
     console.log(post.new_comment);
     axios
@@ -122,19 +124,19 @@
   profile_page.methods.route = function (page_num) {
     this.page = page_num;
   };
-  
+
   profile_page.methods.show_comments = function (post_idx) {
       let self = this;
       let post = self.posts[post_idx];
       post.show_comments = true;
   }
-  
+
   profile_page.methods.collapse_comments = function (post_idx) {
       let self = this;
       let post = self.posts[post_idx];
       post.show_comments = false;
   }
-  
+
   utils.register_vue_component(
     "profilepage",
     "components/profile_page/profile_page.html",

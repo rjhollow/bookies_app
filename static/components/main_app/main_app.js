@@ -97,22 +97,28 @@
                 self.post_author = book.volumeInfo.authors[0];
                 self.book_pinned = true;
                 self.pressed_search = true;
+                self.search_string = "";
             })
   };
   
   main_app.methods.cancel_book = function() {
       let self = this;
+      self.book_pinned = false;
       self.add_book = false;
+      self.pressed_search = false;
       self.post_bookid = "";
       self.post_bookimg = "";
       self.post_title = "";
       self.post_author = "";
+      self.search_string = "";
   };
   
   main_app.methods.confirm_book = function(){
       let self = this;
       self.add_book = false;
       self.book_pinned = true;
+      self.pressed_search = false;
+      self.search_string = "";
   };
 
   main_app.methods.create_new_post = function () {
