@@ -42,7 +42,6 @@
             <div :class="add_book ? 'modal is-active is-clipped' : 'modal'">
                 <div class="modal-background"></div>
                 <div class="modal-content">
-                    <div class="section">
                         <nav class="level">
                             <div class="level-left">
                                 <div class="level-item">
@@ -55,24 +54,33 @@
                                         </p>
                                     </div>
                                 </div>
+                                <p class="level-item is-size-6 has-text-white">Please type full title of book</p>
                             </div>
                             <div class="level-right">
-                                <p class="level-item"><a class="icon is-small is-info">
+                                <p class="level-item"><a class="button is-small is-info">
                                     <i class="fa fa-search"></i>
                                 </a></p>
                             </div>
                         </nav>
 
-                    </div>
                     <div class="section">
-                        <figure class="image is-2by3">
-                            <img src="https://bulma.io/images/placeholders/1280x960.png">
-                        </figure>
+                        <div class="section">
+                            <div class="section">
+                                <div class="columns">
+                                    <div class="column">
+                                        <figure class="image is-2by3">
+                                            <img src="https://bulma.io/images/placeholders/1280x960.png">
+                                        </figure>
+                                    </div>
+                                    <div class="column">
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="section">
-                        <a class="button is-success">Confirm</a>
-                        <a class="button is-danger">Cancel</a>
-                    </div>
+                    <a class="button is-success">Confirm</a>
+                    <a class="button is-danger">Cancel</a>
                 </div>
                 <button class="modal-close is-large" aria-label="close"></button>
             </div>
