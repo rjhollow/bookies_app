@@ -1,6 +1,6 @@
 (function () {
   var main_app = {
-    props: ["get_posts_url", "create_post_url", "get_about_url", "delete_all", "get_user_url", "create_reply_url", "get_profile_url"],
+    props: ["get_posts_url", "create_post_url", "get_about_url", "delete_all", "get_user_url", "create_reply_url", "get_profile_url", "add_like_url"],
     // Notice how we never actually use the get_about_url here!
     // That's because we pass it down to the child AboutPage component.
     data: {},
@@ -114,6 +114,19 @@
                 self.search_string = "";
             })
   };
+  
+  main_app.methods.add_like = function(post_idx){
+      let self = this;
+      let post = self.posts[post_idx];
+      post.num_likes+=1;
+      console.log(post.num_likes);
+      axios.post(self.add_like_url, {id: post.id,
+                                    likes: post.num_likes})
+        .then((res) => {
+            console.log(res.data.test);
+        })
+      
+  }
   
   main_app.methods.close_book = function() {
         let self = this;

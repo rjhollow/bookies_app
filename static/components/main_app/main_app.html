@@ -32,10 +32,12 @@
             <div v-if="goto_profile">
                 <!-- COMPONENT ADDED HERE -->
                 <profilepage :id="profile_id"
+                             :current_user="false"
                              :get_profile_url="get_profile_url"
                              :get_user_url="get_user_url"
                              :create_post_url="create_post_url"
-                             :create_reply_url="create_reply_url"></profilepage>
+                             :create_reply_url="create_reply_url"
+                             :add_like_url="add_like_url"></profilepage>
                 <!-- Another component being used (ie. every page other than home is a component) -->
             </div>
 
@@ -243,7 +245,8 @@
 
                                         <nav class="level is-mobile">
                                             <div class="level-left">
-                                                <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>
+                                                <a @click="add_like(post._idx)" class="level-item"><p
+                                                        v-if="post.num_likes>0">{{post.num_likes}} </p>
                                                     Like
                                                     . </a>
                                                 <div class="level-item" v-if="!post.show_comments">
@@ -328,10 +331,12 @@
                 <div v-if="page == 3">
                     <!-- COMPONENT ADDED HERE -->
                     <profilepage :id="user_id"
+                                 :current_user="true"
                                  :get_profile_url="get_profile_url"
                                  :get_user_url="get_user_url"
                                  :create_post_url="create_post_url"
-                                 :create_reply_url="create_reply_url"></profilepage>
+                                 :create_reply_url="create_reply_url"
+                                 :add_like_url="add_like_url"></profilepage>
                     <!-- Another component being used (ie. every page other than home is a component) -->
                 </div>
             </div>

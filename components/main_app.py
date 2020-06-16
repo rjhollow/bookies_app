@@ -14,6 +14,7 @@ class MainAppComponent(Fixture):
     create_reply_url={create_reply_url}
     get_about_url={get_about_url}
     delete_all={delete_all}
+    add_like_url={add_like_url}
     ></mainapp>"""
 
     def __init__(self, url, session, signer=None, db=None, auth=None):
@@ -35,6 +36,7 @@ class MainAppComponent(Fixture):
                           self.delete_all_posts, "GET")
         self.create_route(self.create_post_url, self.create_post, "POST")
         self.create_route(self.create_reply_url, self.create_reply, "POST")
+        self.create_route(self.add_like_url, self.add_like, "POST")
 
     def __call__(self, img_id=None):  # turn our class into HTML
         return XML(MainAppComponent.MAINAPP.format(
@@ -44,7 +46,8 @@ class MainAppComponent(Fixture):
             create_post_url=URL(self.create_post_url, signer=self.signer),
             create_reply_url=URL(self.create_reply_url, signer=self.signer),
             get_about_url=URL(self.get_about_url, signer=self.signer),
-            delete_all=URL(self.delete_all_posts_url, signer=self.signer)
+            delete_all=URL(self.delete_all_posts_url, signer=self.signer),
+            add_like_url=URL(self.add_like_url, signer=self.signer)
         ))
 
     def define_urls(self):
@@ -55,6 +58,7 @@ class MainAppComponent(Fixture):
         self.create_reply_url = self.base_url + "/create_reply"
         self.get_about_url = self.base_url + "/get_about"
         self.delete_all_posts_url = self.base_url + "/clear"
+        self.add_like_url = self.base_url + "/add_like"
 
     def create_route(self, url, method, protocol):
         func = action.uses(*self.args)(method)
@@ -67,6 +71,13 @@ class MainAppComponent(Fixture):
             return dict(user=user_id, full_name=name)
         else:
             return dict()
+
+    def add_like(self):
+        post_id = request.json.get('id')
+        likes = request.json.get('likes')
+        row = self.db(self.db.posts.id == post_id).select().first()
+        row.update_record(num_likes=likes)
+        return dict(test="ok")
 
     def get_posts(self):
         # creates a list of main posts

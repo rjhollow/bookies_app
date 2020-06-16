@@ -2,7 +2,7 @@
 
 (function () {
   var profile_page = {
-    props: ["id", "get_profile_url", "create_post_url", "create_reply_url", "get_user_url"],
+    props: ["id", "current_user", "get_profile_url", "create_post_url", "create_reply_url", "get_user_url", "add_like_url"],
     data: {},
     methods: {},
   };
@@ -17,7 +17,7 @@
       search_string: "",
       show: false,
       pressed_search: false,
-      add_book: true,
+      add_book: false,
       book_pinned: false,
       post_bookid: "",
       post_bookimg: "",
@@ -38,6 +38,7 @@
       create_url: this.create_post_url,
       create_reply_url: this.create_reply_url,
       user_url: this.get_user_url,
+      add_like_url: this.add_like_url
     };
     profile_page.methods.load.call(data);
     return data;
@@ -114,6 +115,19 @@
                 self.book_publishdate = book.volumeInfo.publishedDate;
         })
     }
+    
+  profile_page.methods.add_like = function(post_idx){
+      let self = this;
+      let post = self.posts[post_idx];
+      post.num_likes+=1;
+      console.log(post.num_likes);
+      axios.post(self.add_like_url, {id: post.id,
+                                    likes: post.num_likes})
+        .then((res) => {
+            console.log(res.data.test);
+        })
+      
+  }
     
   profile_page.methods.close_book = function() {
         let self = this;

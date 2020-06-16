@@ -36,59 +36,7 @@
             </div>
         </div>
 
-        <div :class="add_book ? 'modal is-active is-clipped' : 'modal'">
-            <div class="modal-background"></div>
-            <div class="modal-content">
-                <nav class="level">
-                    <div class="level-left">
-                        <div class="level-item">
-                            <div class="field">
-                                <p class="control has-icons-left">
-                                    <input v-model="search_string" class="input" placeholder="Search">
-                                    <span class="icon is-small is-left">
-                                                <i class="fa fa-search"></i>
-                                            </span>
-                                </p>
-                            </div>
-                        </div>
-                        <p class="level-item is-size-6 has-text-white">Please type full title of the book</p>
-                    </div>
-                    <div class="level-right">
-                        <p class="level-item"><a @click="book_query(search_string)"
-                                                 class="button is-small is-info">
-                            <i class="fa fa-search"></i>
-                        </a></p>
-                    </div>
-                </nav>
-
-                <div v-if="book_pinned" class="section">
-                    <div class="section">
-                        <div class="section">
-                            <div class="section">
-                                <div class="columns">
-                                    <div class="column">
-                                        <figure class="image is-3by4">
-                                            <img :src="'' + post_bookimg">
-                                        </figure>
-                                        <p class="control is-size-5 has-text-white">{{post_title}}</p>
-                                        <p class="control is-size-7 has-text-grey-lighter">{{post_author}}</p>
-                                    </div>
-                                    <div class="column">
-                                        <p></p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <a v-if="pressed_search" @click="confirm_book" class="button is-success">Confirm</a>
-                <a @click="cancel_book" class="button is-danger">Cancel</a>
-            </div>
-            <button @click="cancel_book" class="modal-close is-large" aria-label="close"></button>
-        </div>
-
-        <div class="has-background-white">
+        <div v-if="current_user" class="has-background-white">
             <div class="columns">
                 <div class="column is-2">
                     <figure v-if="book_pinned" @click="get_book" class="image is-2by3">
@@ -170,7 +118,8 @@
 
                         <nav class="level is-mobile">
                             <div class="level-left">
-                                <a class="level-item"><p v-if="post.num_likes>0">{{post.num_likes}}</p>Like
+                                <a @click="add_like(post._idx)" class="level-item"><p v-if="post.num_likes>0">
+                                    {{post.num_likes}} </p> Like
                                     . </a>
                                 <div class="level-item" v-if="!post.show_comments">
                                     <a v-if="!(post.replies==0)" @click="show_comments(post._idx)" class="is-info">
@@ -238,6 +187,59 @@
         </div>
         <hr>
     </div>
+
+    <div :class="add_book ? 'modal is-active is-clipped' : 'modal'">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <nav class="level">
+                <div class="level-left">
+                    <div class="level-item">
+                        <div class="field">
+                            <p class="control has-icons-left">
+                                <input v-model="search_string" class="input" placeholder="Search">
+                                <span class="icon is-small is-left">
+                                                <i class="fa fa-search"></i>
+                                            </span>
+                            </p>
+                        </div>
+                    </div>
+                    <p class="level-item is-size-6 has-text-white">Please type full title of the book</p>
+                </div>
+                <div class="level-right">
+                    <p class="level-item"><a @click="book_query(search_string)"
+                                             class="button is-small is-info">
+                        <i class="fa fa-search"></i>
+                    </a></p>
+                </div>
+            </nav>
+
+            <div v-if="book_pinned" class="section">
+                <div class="section">
+                    <div class="section">
+                        <div class="section">
+                            <div class="columns">
+                                <div class="column">
+                                    <figure class="image is-3by4">
+                                        <img :src="'' + post_bookimg">
+                                    </figure>
+                                    <p class="control is-size-5 has-text-white">{{post_title}}</p>
+                                    <p class="control is-size-7 has-text-grey-lighter">{{post_author}}</p>
+                                </div>
+                                <div class="column">
+                                    <p></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <a v-if="pressed_search" @click="confirm_book" class="button is-success">Confirm</a>
+            <a @click="cancel_book" class="button is-danger">Cancel</a>
+        </div>
+        <button @click="cancel_book" class="modal-close is-large" aria-label="close"></button>
+    </div>
+
     <div :class="show ? 'modal is-active is-clipped' : 'modal'">
         <div class="modal-background"></div>
         <div class="modal-card">
