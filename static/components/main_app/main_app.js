@@ -77,7 +77,7 @@
   main_app.methods.cover_art = function() {
       let self = this;
       let image = self.post_bookimg;
-      console.log(image);
+      console.log(this.post_bookimg);
       return image;
   }
   
@@ -211,14 +211,6 @@
       self.page = 0;
   };
   
-//   main_app.methods.post_image = function(post_idx) {
-//       let self = this;
-//       let image = self.post_bookimg;
-//       console.log(self.post_bookimg);
-//       return image;
-//   };
-
-  // This route changes pages, super simple
   main_app.methods.route = function (page_num) {
     let self = this;
     self.page = page_num;
