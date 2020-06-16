@@ -9,6 +9,7 @@
   
   profile_page.data = function () {
     var data = {
+      api_base_uri: "https://www.googleapis.com/books/v1/", // volumes/volumeId - to retrieve a specific book, volumes?q={search terms} - to retrieve a list of books from a query
       page: 0, // There are currently 2 pages, 1 = home and 2 = about
       posts: [],
       new_post: "",
@@ -16,7 +17,7 @@
       search_string: "",
       show: false,
       pressed_search: false,
-      add_book: false,
+      add_book: true,
       book_pinned: false,
       post_bookid: "",
       post_bookimg: "",
@@ -92,6 +93,32 @@
                 self.search_string = "";
             })
   };
+  
+  profile_page.methods.show_book = function(post_idx) {
+        let self = this;
+        self.show = true;
+        let post = self.posts[post_idx];
+        let id = post.book_id;
+        let api_url = self.api_base_uri + "volumes/" + id;
+        axios.get(api_url)
+            .then((res) => {
+                let book = res.data;
+                self.book_title = book.volumeInfo.title;
+                self.book_subtitle = book.volumeInfo.subtitle;
+                self.book_author = book.volumeInfo.authors[0];
+                self.book_img = book.volumeInfo.imageLinks.smallThumbnail;
+                self.book_desc = book.volumeInfo.description;
+                self.book_pageCount = book.volumeInfo.pageCount;
+                self.book_type = book.volumeInfo.printType;
+                self.book_publisher = book.volumeInfo.publisher;
+                self.book_publishdate = book.volumeInfo.publishedDate;
+        })
+    }
+    
+  profile_page.methods.close_book = function() {
+        let self = this;
+        self.show = false;
+  }
   
   profile_page.methods.cancel_book = function() {
       let self = this;

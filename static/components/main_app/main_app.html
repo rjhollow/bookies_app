@@ -39,15 +39,81 @@
                 <!-- Another component being used (ie. every page other than home is a component) -->
             </div>
 
-            <div :class="add_book ? 'modal is-active is-clipped' : 'modal'">
+            <div :class="show ? 'modal is-active is-clipped' : 'modal'">
                 <div class="modal-background"></div>
-                <div class="modal-content">
+                <div class="modal-card">
+                    <header class="section has-background-info">
                         <nav class="level">
                             <div class="level-left">
                                 <div class="level-item">
-                                    <div class="field">
-                                        <p class="control has-icons-left">
-                                            <input v-model="search_string" class="input" placeholder="Search">
+                                    <div>
+                                        <p class="title is-4 has-text-white">{{book_title}}</p>
+                                        <p class="title is-7 has-text-grey-lighter">{{book_subtitle}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="level-right">
+                                <button class="delete" aria-label="close" @click="close_book"></button>
+                            </div>
+                        </nav>
+                    </header>
+                    <section class="modal-card-body">
+                        <div class="section">
+                            <div class="columns">
+                                <div class="column">
+                                    <figure class="image is-2by3">
+                                        <img :src="'' + book_img">
+                                    </figure>
+                                </div>
+                                <div class="column">
+                                    <nav class="level">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <div class="content">
+                                                    <p class="is-size-7 has-text-grey"><strong>Title: </strong>{{book_title}}
+                                                    </p>
+                                                    <p class="is-size-7 has-text-grey"><strong>Subtitle: </strong>{{book_subtitle}}
+                                                    </p>
+                                                    <p class="is-size-7 has-text-grey"><strong>Author: </strong>{{book_author}}
+                                                    </p>
+                                                    <p class="is-size-7 has-text-grey"><strong>Pages: </strong>{{book_pageCount}}
+                                                    </p>
+                                                    <p class="is-size-7 has-text-grey"><strong>Type: </strong>{{book_type}}
+                                                    </p>
+                                                    <p class="is-size-7 has-text-grey"><strong>Publisher: </strong>{{book_publisher}}
+                                                    </p>
+                                                    <p class="is-size-7 has-text-grey"><strong>Published
+                                                        Date: </strong>{{book_publishdate}}</p>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </nav>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="control">
+                            <p class="is-size-6 has-text-grey-light"><strong>Description:</strong></p>
+                        </div>
+                        <p>{{book_desc}}</p>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <button v-on:click="close_book" class="button">Close</button>
+                    </footer>
+                </div>
+            </div>
+
+            <div :class="add_book ? 'modal is-active is-clipped' : 'modal'">
+                <div class="modal-background"></div>
+                <div class="modal-content">
+                    <nav class="level">
+                        <div class="level-left">
+                            <div class="level-item">
+                                <div class="field">
+                                    <p class="control has-icons-left">
+                                        <input v-model="search_string" class="input" placeholder="Search">
                                             <span class="icon is-small is-left">
                                                 <i class="fa fa-search"></i>
                                             </span>
@@ -142,10 +208,10 @@
                     <div class="section has-background-white" v-for="(post, index) in posts">
                         <div class="columns section">
                             <div class="column is-2">
-                                <figure class="image is-2by3">
+                                <figure @click="show_book(post._idx)" class="image is-2by3">
                                     <img :src="'' + post.book_img">
                                 </figure>
-                                <div class="section">
+                                <div @click="show_book(post._idx)" class="section">
                                     <nav class="level">
                                         <div class="level-item has-text-centered">
                                             <div>

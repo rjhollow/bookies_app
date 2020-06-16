@@ -24,5 +24,5 @@ def index():
     # ie. that's how the __call__ method is used
 
     # tester filler data for posts for the database.
-    db(db.posts).delete()
+    # db(db.posts).delete()
     return dict(app=app())

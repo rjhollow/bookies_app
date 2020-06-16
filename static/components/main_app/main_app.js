@@ -74,6 +74,27 @@
       self.add_book = true;
   };
   
+  main_app.methods.show_book = function(post_idx) {
+        let self = this;
+        self.show = true;
+        let post = self.posts[post_idx];
+        let id = post.book_id;
+        let api_url = self.api_base_uri + "volumes/" + id;
+        axios.get(api_url)
+            .then((res) => {
+                let book = res.data;
+                self.book_title = book.volumeInfo.title;
+                self.book_subtitle = book.volumeInfo.subtitle;
+                self.book_author = book.volumeInfo.authors[0];
+                self.book_img = book.volumeInfo.imageLinks.smallThumbnail;
+                self.book_desc = book.volumeInfo.description;
+                self.book_pageCount = book.volumeInfo.pageCount;
+                self.book_type = book.volumeInfo.printType;
+                self.book_publisher = book.volumeInfo.publisher;
+                self.book_publishdate = book.volumeInfo.publishedDate;
+        })
+    }
+  
   main_app.methods.book_query = function(title){
       let self = this;
       let params = main_app.convert_to_query(title);
@@ -93,6 +114,11 @@
                 self.search_string = "";
             })
   };
+  
+  main_app.methods.close_book = function() {
+        let self = this;
+        self.show = false;
+  }
   
   main_app.methods.cancel_book = function() {
       let self = this;

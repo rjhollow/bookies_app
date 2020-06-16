@@ -10,7 +10,6 @@
             </p>
         </div>
         <a @click="get_query(field_string)" class="button is-info">Fetch</a>
-        <a @click="show_book" class="button is-success">Show</a>
     </div>
 
     <div v-if="show_query">
@@ -137,8 +136,6 @@
                 <p>{{book_desc}}</p>
             </section>
             <footer class="modal-card-foot">
-                <button class="button is-success">Add to Bookshelf</button>
-                <button class="button">Currently Reading</button>
                 <button v-on:click="close_book" class="button">Close</button>
             </footer>
         </div>

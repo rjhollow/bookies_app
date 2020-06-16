@@ -95,7 +95,7 @@ class MainAppComponent(Fixture):
             post['replies'] = self.db(self.db.posts.reply == post['id']).select().as_list()
             post['new_comment'] = ""
             post['show_comments'] = False
-        return dict(full_name=name, posts=posts, test=profile_id)
+        return dict(full_name=name, posts=posts)
 
     def create_post(self):
         name = request.json.get('name')
