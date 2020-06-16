@@ -74,13 +74,6 @@
       self.add_book = true;
   };
   
-  main_app.methods.cover_art = function() {
-      let self = this;
-      let image = self.post_bookimg;
-      console.log(this.post_bookimg);
-      return image;
-  }
-  
   main_app.methods.book_query = function(title){
       let self = this;
       let params = main_app.convert_to_query(title);
