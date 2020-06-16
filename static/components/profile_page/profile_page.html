@@ -36,7 +36,7 @@
             </div>
         </div>
 
-        <div v-if="current_user" class="has-background-white">
+        <div v-if="profile_user_id == current_user_id" class="has-background-white">
             <div class="columns">
                 <div class="column is-2">
                     <figure v-if="book_pinned" @click="get_book" class="image is-2by3">

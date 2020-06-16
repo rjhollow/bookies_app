@@ -2,7 +2,7 @@
 
 (function () {
   var profile_page = {
-    props: ["id", "current_user", "get_profile_url", "create_post_url", "create_reply_url", "get_user_url", "add_like_url"],
+    props: ["id", "get_profile_url", "create_post_url", "create_reply_url", "get_user_url", "add_like_url"],
     data: {},
     methods: {},
   };
