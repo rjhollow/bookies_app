@@ -100,7 +100,12 @@ class MainAppComponent(Fixture):
     def create_post(self):
         name = request.json.get('name')
         content = request.json.get('content')
-        id = self.db.posts.insert(name=name, content=content, reply=None)
+        book_id = request.json.get('book')
+        book_title = request.json.get('title')
+        book_author = request.json.get('author')
+        book_img = request.json.get('image')
+        id = self.db.posts.insert(name=name, content=content, book_id=book_id, book_title=book_title,
+                                  book_author=book_author, book_img=book_img, reply=None)
         post = self.db(self.db.posts.id == id).select().first()
         post['replies'] = []
         return dict(id=id, date=post.post_date)

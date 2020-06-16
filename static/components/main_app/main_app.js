@@ -20,7 +20,7 @@
       goto_profile: false,
       show: false,
       pressed_search: false,
-      add_book: true,
+      add_book: false,
       book_pinned: false,
       post_bookid: "",
       post_bookimg: "",
@@ -135,6 +135,10 @@
       .post(self.create_url, {
           name: self.fullname,
           content: self.new_post,
+          book: self.post_bookid,
+          title: self.post_title,
+          author: self.post_author,
+          image: self.post_bookimg
       })
       .then((res) => {
         all_posts.unshift({
@@ -148,9 +152,10 @@
             new_comment: "",
             show_comments: false,
             user: self.user_id,
-            book_title: res.data.title,
-            book_author: res.data.author,
-            book_img: res.data.image,
+            book_id: self.post_bookid,
+            book_title: self.post_title,
+            book_author: self.post_author,
+            book_img: self.post_bookimg,
             
         });
         self.posts = main_app.enumerate(all_posts);

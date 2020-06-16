@@ -51,6 +51,9 @@ db.define_table("posts",
                 Field('num_likes', 'integer', default=0),
                 Field('post_date', 'datetime', default=get_time),
                 Field('book_id', 'text'),
+                Field('book_title', 'text'),
+                Field('book_author', 'text'),
+                Field('book_img', 'text'),
                 Field('reply', 'reference posts'))
 
 db.commit()
